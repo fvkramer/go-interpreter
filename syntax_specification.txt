@@ -1,0 +1,33 @@
+//Monkey
+
+//Variable binding
+let age = 1;
+let name = "Monkey";
+let result = 10 * (20 / 2);
+
+//Array + Hash
+let myArray = [1, 2, 3, 4, 5];
+let kvHash = { "name": "Monkey", "age": 28 };
+
+myArray[0] ==> 1
+kvHash["name"] ==> "Monkey"
+
+
+//Can bind functions to names
+let add = fn(a, b) { return a + b } | { a + b };
+
+add(1, 2); //function invocation
+
+//HOF
+let twice = fn(f, x) {
+  return f(f(x));
+}
+
+let addTwo = fn(x) {
+  return x + 2;
+}
+
+twice(addTwo, 2); => 6
+
+# when functions can be passed as values, "first class functions"
+
