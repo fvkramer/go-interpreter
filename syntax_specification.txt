@@ -31,3 +31,20 @@ twice(addTwo, 2); => 6
 
 # when functions can be passed as values, "first class functions"
 
+Lexer -> Tokens -> Parser
+
+"let x = 5 + 5;"
+
+Token:
+[
+  LET,
+  IDENTIFIER("x"),
+  EQUAL_SIGN,
+  INTEGER(5),
+  PLUS_SIGN,
+  INTEGER(5),
+  SEMICOLON
+]
+
+this impl of what constitutes a token varies between interpreter implementations
+
