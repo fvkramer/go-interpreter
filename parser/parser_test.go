@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"interpreter/ast"
 	"interpreter/lexer"
 	"testing"
@@ -89,7 +90,7 @@ func TestReturnStatements(t *testing.T) {
 	p := New(l)
 
 	program := p.ParseProgram()
-	checkParseErrors(t, p)
+	checkParserErrors(t, p)
 
 	if len(program.Statements) != 3 {
 		t.Fatalf("program.Statements does not contain 3 statements. got=%d",
@@ -119,7 +120,7 @@ func TestLetStatements(t *testing.T) {
 	p := New(l)
 
 	program := p.ParseProgram()
-	checkParseErrors(t, p)
+	checkParserErrors(t, p)
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
 	}
@@ -149,7 +150,7 @@ func TestIdentifierExpression(t *testing.T) {
 	l := lexer.New(input)
 	p := New(l)
 	program := p.ParseProgram()
-	checkParseErrors(t, p)
+	checkParserErrors(t, p)
 
 	if len(program.Statements) != 1 {
 		t.Fatalf("program does not have enough statements. got=%d",
@@ -174,7 +175,28 @@ func TestIdentifierExpression(t *testing.T) {
 	}
 }
 
-func checkParseErrors(t *testing.T, p *Parser) {
+func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
+	integ, ok := il.(*ast.IntegerLiteral)
+	if !ok {
+		t.Errorf("il not *ast.IntegerLiteral. got=%T", il)
+		return false
+	}
+
+	if integ.Value != value {
+		t.Errorf("integ.Value not %d. got=%d", value, integ.Value)
+		return false
+	}
+
+	if integ.TokenLiteral() != fmt.Sprintf("%d", value) {
+		t.Errorf("integ.TokenLiteral not %d. got=%s", value,
+			integ.TokenLiteral())
+		return false
+	}
+
+	return true
+}
+
+func checkParserErrors(t *testing.T, p *Parser) {
 	errors := p.Errors()
 	if len(errors) == 0 {
 		return
