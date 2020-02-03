@@ -153,7 +153,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 	program := &ast.Program{}
 	program.Statements = []ast.Statement{}
 
-	for p.curToken.Type != token.EOF {
+	for !p.curTokenIs(token.EOF) {
 		stmt := p.parseStatement()
 		if stmt != nil {
 			program.Statements = append(program.Statements, stmt)
@@ -232,6 +232,8 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 		if infix == nil {
 			return leftExp
 		}
+
+		p.nextToken()
 
 		leftExp = infix(leftExp)
 	}
